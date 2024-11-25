@@ -147,22 +147,35 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
 3. Suba os containers:
 
    ```bash
+
    cd weather-app/docker
    
    docker-compose up -d
 
-4. Acesse o frontend:
+4. Rode as migrations:
 
-    ```bash
-    Abra http://localhost:3000 no navegador.
+   ```bash
 
-5. Gerenciar e acessar o banco de dados:
+   cd backend 
+   
+   docker exec -it weather-backend sh
 
-    ```bash
-    Acesse o Adminer em http://localhost:8081
+   php artisan migrate
 
-    Sistema: MySQL
-    Servidor: weather-mysql
-    Usuário: user
-    Senha: userpassword
-    Base de dados: weather_app
+5. Acesse o frontend:
+
+   ```bash
+
+   Abra http://localhost:3000 no navegador.
+
+6. Gerenciar e acessar o banco de dados:
+
+   ```bash
+
+   Acesse o Adminer em http://localhost:8081
+
+   Sistema: MySQL
+   Servidor: weather-mysql
+   Usuário: user
+   Senha: userpassword
+   Base de dados: weather_app

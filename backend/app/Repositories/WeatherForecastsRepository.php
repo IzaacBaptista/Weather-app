@@ -18,38 +18,10 @@ class WeatherForecastsRepository
 
     public function getWeatherForecasts(array $filters, int $perPage = 10)
     {
-        $query = $this->weatherForecasts->with('city');
-
-        if (!empty($filters['cep'])) {
-            $query->whereHas('city', function ($q) use ($filters) {
-                $q->where('postal_code', 'LIKE', "%{$filters['cep']}%");
+        $query = $this->weatherForecasts->with('city')
+            ->when(!empty($filters), function ($query) use ($filters) {
+                $this->applyFilters($query, $filters);
             });
-        }
-
-        if (!empty($filters['cidade'])) {
-            $query->whereHas('city', function ($q) use ($filters) {
-                $q->where('name', 'LIKE', "%{$filters['cidade']}%");
-            });
-        }
-
-        if (!empty($filters['mes'])) {
-            $query->whereMonth('date_of_forecast', $filters['mes']);
-        }
-
-        if (!empty($filters['ano'])) {
-            $query->whereYear('date_of_forecast', $filters['ano']);
-        }
-
-        if (!empty($filters['periodoInicio'])) {
-            $query->where('date_of_forecast', '>=', Carbon::parse($filters['periodoInicio'])->startOfDay());;
-        }
-
-        if (!empty($filters['periodoInicio']) && !empty($filters['periodoFim'])) {
-            $query->whereBetween('date_of_forecast', [
-                Carbon::parse($filters['periodoInicio'])->startOfDay(),
-                Carbon::parse($filters['periodoFim'])->endOfDay()
-            ]);
-        }        
 
         return $query->paginate($perPage);
     }
@@ -123,5 +95,46 @@ class WeatherForecastsRepository
             'date_of_forecast' => now(),
             'is_favorite' => $data['is_favorite'] ?? false,
         ]);
+    }
+
+    private function applyFilters(Object $query, array $filters)
+    {
+        if (!empty($filters['cep'])) {
+            $query->whereHas('city', function ($q) use ($filters) {
+                $q->where('postal_code', 'LIKE', "%{$filters['cep']}%");
+            });
+        }
+
+        if (!empty($filters['cidade'])) {
+            $query->whereHas('city', function ($q) use ($filters) {
+                $q->where('name', 'LIKE', "%{$filters['cidade']}%");
+            });
+        }
+
+        if (!empty($filters['mes'])) {
+            $query->whereMonth('date_of_forecast', $filters['mes']);
+        }
+
+        if (!empty($filters['ano'])) {
+            $query->whereYear('date_of_forecast', $filters['ano']);
+        }
+
+        if (!empty($filters['periodoInicio'])) {
+            $query->where('date_of_forecast', '>=', Carbon::parse($filters['periodoInicio'])->startOfDay());;
+        }
+
+        if (!empty($filters['periodoInicio']) && !empty($filters['periodoFim'])) {
+            $query->whereBetween('date_of_forecast', [
+                Carbon::parse($filters['periodoInicio'])->startOfDay(),
+                Carbon::parse($filters['periodoFim'])->endOfDay()
+            ]);
+        }
+
+        if (!empty($filters['isFavorite'])) {
+            $isFavorite = $filters['isFavorite'] === 'true' ? 1 : 0;
+            $query->where('is_favorite', $isFavorite);
+        }
+
+        return $query;
     }
 }

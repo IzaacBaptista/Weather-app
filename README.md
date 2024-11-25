@@ -150,12 +150,7 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
     ```bash
     Abra http://localhost:3000 no navegador.
 
-4. Acesse o backend:
-
-    ```bash
-    API estará disponível em http://localhost:8000/api/v1.
-
-5. Gerenciar banco:
+4. Gerenciar banco:
 
     ```bash
     Acesse o Adminer em http://localhost:8081

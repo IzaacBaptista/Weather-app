@@ -1,0 +1,59 @@
+version: '3.8'
+services:
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: weather-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../backend:/var/www/html
+    networks:
+      - weather-network
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: weather-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://backend:8000
+    networks:
+      - weather-network
+
+  database:
+    image: mysql:8.0
+    container_name: weather-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: senha
+      MYSQL_DATABASE: weather_app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    ports:
+      - "3306:3306"
+    networks:
+      - weather-network
+    volumes:
+      - weather-db:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: weather-adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - weather-network
+
+networks:
+  weather-network:
+    driver: bridge
+
+volumes:
+  weather-db:

@@ -160,3 +160,6 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
     Usuário: user
     Senha: userpassword
     Base de dados: weather_app
+
+    ![image](https://github.com/user-attachments/assets/5523e068-56b9-47f9-8ba9-6e7075730151)
+

@@ -1,0 +1,57 @@
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .input-group {
+    flex: 1 1 calc(33.333% - 10px);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .input-group input,
+  .input-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .clear-button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .clear-button:hover {
+    background-color: #1d6fa5;
+  }
+  
+  @media (max-width: 768px) {
+    .filters {
+      flex-direction: column;
+    }
+  
+    .input-group {
+      flex: 1 1 100%;
+    }
+  
+    .clear-button {
+      width: 100%;
+    }
+  }

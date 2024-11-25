@@ -109,7 +109,6 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
 - **Laravel**: Framework PHP para construção de APIs RESTful.
 - **MySQL**: Banco de dados relacional.
 - **Carbon**: Biblioteca para manipulação de datas.
-- **Laravel Observers**: Para atualização automática de dados.
 
 ### **Frontend**
 
@@ -136,21 +135,28 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
 1. Clone o repositório:
 
    ```bash
+
    git clone https://github.com/IzaacBaptista/Weather-app.git
 
-2. Suba os containers:
+2. Copie o arquivo de configuração do backend:
+
+   ```bash
+
+   cp backend/.env.example backend/.env
+
+3. Suba os containers:
 
    ```bash
    cd weather-app/docker
    
    docker-compose up -d
 
-3. Acesse o frontend:
+4. Acesse o frontend:
 
     ```bash
     Abra http://localhost:3000 no navegador.
 
-4. Gerenciar e acessar o banco de dados:
+5. Gerenciar e acessar o banco de dados:
 
     ```bash
     Acesse o Adminer em http://localhost:8081
@@ -160,6 +166,3 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
     Usuário: user
     Senha: userpassword
     Base de dados: weather_app
-
-    ![image](https://github.com/user-attachments/assets/5523e068-56b9-47f9-8ba9-6e7075730151)
-

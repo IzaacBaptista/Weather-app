@@ -13,7 +13,7 @@ Este projeto é um sistema completo para previsão do tempo, incluindo busca de 
 - Consultar previsão do tempo por cidade ou CEP.
 - Comparar condições meteorológicas entre duas cidades.
 - Salvar consultas como favoritas.
-- Visualizar histórico de previsões e consultas comparadas.
+- Visualizar histórico de previsões.
 
 ---
 
@@ -37,10 +37,6 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
 
 - **Migration**: Cada tabela tem uma migration dedicada para facilitar rastreamento de mudanças no banco.
 - **Validation**: Regras de validação aplicadas nos Controllers para garantir integridade dos dados.
-
-#### **Observer**
-
-- Implementação de um **Observer** para atualizar automaticamente CEPs de cidades com nomes correspondentes quando um CEP é encontrado.
 
 #### **API RESTful**
 
@@ -100,13 +96,9 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
 - Nomes de variáveis e funções descritivos.
 - Eliminação de duplicação de código.
 
-### **PSR-12**
-
-- O backend segue o padrão de codificação **PSR-12** para consistência e legibilidade.
-
 ### **Arquitetura em Camadas**
 
-- Divisão entre **Controller**, **Service**, e **Repository** para responsabilidades bem definidas.
+- Divisão entre **Controller** e **Repository** para responsabilidades bem definidas.
 
 ---
 
@@ -117,7 +109,6 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
 - **Laravel**: Framework PHP para construção de APIs RESTful.
 - **MySQL**: Banco de dados relacional.
 - **Carbon**: Biblioteca para manipulação de datas.
-- **Laravel Observers**: Para atualização automática de dados.
 
 ### **Frontend**
 
@@ -144,5 +135,14 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/username/weather-app.git
-   cd weather-app
+   git clone https://github.com/IzaacBaptista/Weather-app-with-Laravel-backend-and-React-frontend-using-Docker.git
+
+2. Acesse a pasta do docker:
+
+   ```bash
+   cd docker
+   
+3. Suba os containers:
+
+   ```bash
+   docker-compose up -d

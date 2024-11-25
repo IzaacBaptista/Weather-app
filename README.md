@@ -150,7 +150,13 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
     ```bash
     Abra http://localhost:3000 no navegador.
 
-4. Gerenciar banco:
+4. Gerenciar e acessar o banco de dados:
 
     ```bash
     Acesse o Adminer em http://localhost:8081
+
+    Sistema: MySQL
+    Servidor: weather-mysql
+    Usuário: user
+    Senha: userpassword
+    Base de dados: weather_app

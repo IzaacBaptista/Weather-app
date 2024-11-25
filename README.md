@@ -137,7 +137,25 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
 
    ```bash
    git clone https://github.com/IzaacBaptista/Weather-app.git
-   
+
+2. Suba os containers:
+
+   ```bash
    cd weather-app/docker
    
    docker-compose up -d
+
+3. Acesse o frontend:
+
+    ```bash
+    Abra http://localhost:3000 no navegador.
+
+4. Acesse o backend:
+
+    ```bash
+    API estará disponível em http://localhost:8000/api/v1.
+
+5. Gerenciar banco:
+
+    ```bash
+    Acesse o Adminer em http://localhost:8081

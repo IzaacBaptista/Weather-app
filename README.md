@@ -179,3 +179,17 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
    Usuário: user
    Senha: userpassword
    Base de dados: weather_app
+
+---
+
+## **Buscando cidade por cep**
+
+![Buscando cidade por cep](backend/storage/app/public/cep.gif)
+
+## **Comparando o tempo em duas cidades**
+
+![Comparando o tempo em duas cidades](backend/storage/app/public/compare.gif)
+
+## **Histórico de buscas**
+
+![Histórico de buscas](backend/storage/app/public/history.gif)

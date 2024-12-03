@@ -168,7 +168,14 @@ A organização dos arquivos e o design do sistema seguem princípios de **Clean
 
    Abra http://localhost:3000 no navegador.
 
-6. Gerenciar e acessar o banco de dados:
+
+6. Acesse o backend (API):
+
+   ```bash
+
+   Abra http://localhost:8000/api/v1/weather-history no navegador.
+
+7. Gerenciar e acessar o banco de dados:
 
    ```bash
 

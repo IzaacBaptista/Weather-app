@@ -1,0 +1,889 @@
+{
+  "/home/multiplier/Desktop/Weather-app/backend": {
+    "versionSfCore": null,
+    "versionFramework": "4.4.14",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeResolverProviders": {
+      "default-aws-credential-resolver": "<REDACTED>",
+      "sls": {
+        "instance": {
+          "credentials": "<REDACTED>",
+          "serviceConfigFile": {
+            "service": "laravel-backend",
+            "provider": {
+              "name": "aws",
+              "runtime": "provided.al2",
+              "region": "us-east-1",
+              "environment": {
+                "APP_ENV": "production",
+                "APP_DEBUG": "false",
+                "APP_KEY": "base64:msKg0KC5p6bJpPGoUqZ9n62hFjyrLaqtoHmn693XT1A=",
+                "DB_CONNECTION": "mysql",
+                "DB_HOST": "your-rds-endpoint.amazonaws.com",
+                "DB_PORT": "3306",
+                "DB_DATABASE": "weather_app",
+                "DB_USERNAME": "user",
+                "DB_PASSWORD": "<REDACTED>"
+              },
+              "stage": "dev",
+              "versionFunctions": true,
+              "compiledCloudFormationTemplate": {
+                "AWSTemplateFormatVersion": "2010-09-09",
+                "Description": "The AWS CloudFormation template for this Serverless application",
+                "Resources": {
+                  "WebLogGroup": {
+                    "Type": "AWS::Logs::LogGroup",
+                    "Properties": {
+                      "LogGroupName": "/aws/lambda/laravel-backend-dev-web"
+                    }
+                  },
+                  "IamRoleLambdaExecution": {
+                    "Type": "AWS::IAM::Role",
+                    "Properties": {
+                      "AssumeRolePolicyDocument": {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Effect": "Allow",
+                            "Principal": {
+                              "Service": [
+                                "lambda.amazonaws.com"
+                              ]
+                            },
+                            "Action": [
+                              "sts:AssumeRole"
+                            ]
+                          }
+                        ]
+                      },
+                      "Policies": [
+                        {
+                          "PolicyName": {
+                            "Fn::Join": [
+                              "-",
+                              [
+                                "laravel-backend",
+                                "dev",
+                                "lambda"
+                              ]
+                            ]
+                          },
+                          "PolicyDocument": {
+                            "Version": "2012-10-17",
+                            "Statement": [
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:CreateLogStream",
+                                  "logs:CreateLogGroup",
+                                  "logs:TagResource"
+                                ],
+                                "Resource": [
+                                  {
+                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/laravel-backend-dev*:*"
+                                  }
+                                ]
+                              },
+                              {
+                                "Effect": "Allow",
+                                "Action": [
+                                  "logs:PutLogEvents"
+                                ],
+                                "Resource": [
+                                  {
+                                    "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/laravel-backend-dev*:*:*"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "Path": "/",
+                      "RoleName": {
+                        "Fn::Join": [
+                          "-",
+                          [
+                            "laravel-backend",
+                            "dev",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            "lambdaRole"
+                          ]
+                        ]
+                      }
+                    }
+                  },
+                  "WebLambdaFunction": {
+                    "Type": "AWS::Lambda::Function",
+                    "Properties": {
+                      "Code": {
+                        "S3Bucket": "serverless-framework-deployments-us-east-1-1f9f9034-f31d",
+                        "S3Key": "serverless/laravel-backend/dev/1733357974073-2024-12-05T00:19:34.073Z/laravel-backend.zip"
+                      },
+                      "Handler": "public/index.php",
+                      "Runtime": "provided.al2",
+                      "FunctionName": "laravel-backend-dev-web",
+                      "MemorySize": 1024,
+                      "Timeout": 28,
+                      "Environment": {
+                        "Variables": {
+                          "APP_ENV": "production",
+                          "APP_DEBUG": "false",
+                          "APP_KEY": "base64:msKg0KC5p6bJpPGoUqZ9n62hFjyrLaqtoHmn693XT1A=",
+                          "DB_CONNECTION": "mysql",
+                          "DB_HOST": "your-rds-endpoint.amazonaws.com",
+                          "DB_PORT": "3306",
+                          "DB_DATABASE": "weather_app",
+                          "DB_USERNAME": "user",
+                          "DB_PASSWORD": "<REDACTED>"
+                        }
+                      },
+                      "Role": {
+                        "Fn::GetAtt": [
+                          "IamRoleLambdaExecution",
+                          "Arn"
+                        ]
+                      },
+                      "Layers": [
+                        "arn:aws:lambda:us-east-1:209497400698:layer:php-81-fpm:27"
+                      ]
+                    },
+                    "DependsOn": [
+                      "WebLogGroup"
+                    ]
+                  },
+                  "WebLambdaVersionVeiit2Vx52VoxXaPNT6xtT2VpCgJQoxdvbw1oiWX444": {
+                    "Type": "AWS::Lambda::Version",
+                    "DeletionPolicy": "Retain",
+                    "Properties": {
+                      "FunctionName": {
+                        "Ref": "WebLambdaFunction"
+                      },
+                      "CodeSha256": "cXdkXoGJl4Qia/HtGKv8KAZG4K/ROKWN86kKLdcDewk="
+                    }
+                  },
+                  "ApiGatewayRestApi": {
+                    "Type": "AWS::ApiGateway::RestApi",
+                    "Properties": {
+                      "Name": "dev-laravel-backend",
+                      "EndpointConfiguration": {
+                        "Types": [
+                          "EDGE"
+                        ]
+                      },
+                      "Policy": ""
+                    }
+                  },
+                  "ApiGatewayResourceProxyVar": {
+                    "Type": "AWS::ApiGateway::Resource",
+                    "Properties": {
+                      "ParentId": {
+                        "Fn::GetAtt": [
+                          "ApiGatewayRestApi",
+                          "RootResourceId"
+                        ]
+                      },
+                      "PathPart": "{proxy+}",
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      }
+                    }
+                  },
+                  "ApiGatewayMethodAny": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "HttpMethod": "ANY",
+                      "RequestParameters": {},
+                      "ResourceId": {
+                        "Fn::GetAtt": [
+                          "ApiGatewayRestApi",
+                          "RootResourceId"
+                        ]
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "ApiKeyRequired": "<REDACTED>",
+                      "AuthorizationType": "NONE",
+                      "Integration": {
+                        "IntegrationHttpMethod": "POST",
+                        "Type": "AWS_PROXY",
+                        "Uri": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":apigateway:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ":lambda:path/2015-03-31/functions/",
+                              {
+                                "Fn::GetAtt": [
+                                  "WebLambdaFunction",
+                                  "Arn"
+                                ]
+                              },
+                              "/invocations"
+                            ]
+                          ]
+                        }
+                      },
+                      "MethodResponses": []
+                    },
+                    "DependsOn": [
+                      "WebLambdaPermissionApiGateway"
+                    ]
+                  },
+                  "ApiGatewayMethodProxyVarAny": {
+                    "Type": "AWS::ApiGateway::Method",
+                    "Properties": {
+                      "HttpMethod": "ANY",
+                      "RequestParameters": {},
+                      "ResourceId": {
+                        "Ref": "ApiGatewayResourceProxyVar"
+                      },
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "ApiKeyRequired": "<REDACTED>",
+                      "AuthorizationType": "NONE",
+                      "Integration": {
+                        "IntegrationHttpMethod": "POST",
+                        "Type": "AWS_PROXY",
+                        "Uri": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":apigateway:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              ":lambda:path/2015-03-31/functions/",
+                              {
+                                "Fn::GetAtt": [
+                                  "WebLambdaFunction",
+                                  "Arn"
+                                ]
+                              },
+                              "/invocations"
+                            ]
+                          ]
+                        }
+                      },
+                      "MethodResponses": []
+                    },
+                    "DependsOn": [
+                      "WebLambdaPermissionApiGateway"
+                    ]
+                  },
+                  "ApiGatewayDeployment1733357963797": {
+                    "Type": "AWS::ApiGateway::Deployment",
+                    "Properties": {
+                      "RestApiId": {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "StageName": "dev"
+                    },
+                    "DependsOn": [
+                      "ApiGatewayMethodAny",
+                      "ApiGatewayMethodProxyVarAny"
+                    ]
+                  },
+                  "WebLambdaPermissionApiGateway": {
+                    "Type": "AWS::Lambda::Permission",
+                    "Properties": {
+                      "FunctionName": {
+                        "Fn::GetAtt": [
+                          "WebLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "Action": "lambda:InvokeFunction",
+                      "Principal": "apigateway.amazonaws.com",
+                      "SourceArn": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":execute-api:",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            ":",
+                            {
+                              "Ref": "AWS::AccountId"
+                            },
+                            ":",
+                            {
+                              "Ref": "ApiGatewayRestApi"
+                            },
+                            "/*/*"
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                },
+                "Outputs": {
+                  "ServerlessDeploymentBucketName": {
+                    "Value": "serverless-framework-deployments-us-east-1-1f9f9034-f31d",
+                    "Export": {
+                      "Name": "sls-laravel-backend-dev-ServerlessDeploymentBucketName"
+                    }
+                  },
+                  "WebLambdaFunctionQualifiedArn": {
+                    "Description": "Current Lambda function version",
+                    "Value": {
+                      "Ref": "WebLambdaVersionVeiit2Vx52VoxXaPNT6xtT2VpCgJQoxdvbw1oiWX444"
+                    },
+                    "Export": {
+                      "Name": "sls-laravel-backend-dev-WebLambdaFunctionQualifiedArn"
+                    }
+                  },
+                  "ServiceEndpoint": {
+                    "Description": "URL of the service endpoint",
+                    "Value": {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "https://",
+                          {
+                            "Ref": "ApiGatewayRestApi"
+                          },
+                          ".execute-api.",
+                          {
+                            "Ref": "AWS::Region"
+                          },
+                          ".",
+                          {
+                            "Ref": "AWS::URLSuffix"
+                          },
+                          "/dev"
+                        ]
+                      ]
+                    },
+                    "Export": {
+                      "Name": "sls-laravel-backend-dev-ServiceEndpoint"
+                    }
+                  }
+                }
+              },
+              "vpc": {}
+            },
+            "functions": {
+              "web": {
+                "handler": "public/index.php",
+                "timeout": 28,
+                "layers": [
+                  "arn:aws:lambda:us-east-1:209497400698:layer:php-81-fpm:27"
+                ],
+                "events": [
+                  {
+                    "http": "ANY /"
+                  },
+                  {
+                    "http": "ANY /{proxy+}"
+                  }
+                ],
+                "name": "laravel-backend-dev-web",
+                "package": {},
+                "memory": 1024,
+                "runtime": "provided.al2",
+                "vpc": {},
+                "versionLogicalId": "WebLambdaVersionVeiit2Vx52VoxXaPNT6xtT2VpCgJQoxdvbw1oiWX444"
+              }
+            }
+          },
+          "configFileDirPath": "/home/multiplier/Desktop/Weather-app/backend",
+          "config": {
+            "type": "sls"
+          },
+          "options": {},
+          "stage": "dev",
+          "dashboard": null,
+          "logger": {
+            "namespace": "s:core:resolver:sls",
+            "prefix": null,
+            "prefixColor": null
+          },
+          "_credentialsPromise": "<REDACTED>"
+        },
+        "resolvers": {}
+      }
+    },
+    "composeServiceName": null,
+    "servicePath": "/home/multiplier/Desktop/Weather-app/backend",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "laravel-backend",
+      "provider": {
+        "name": "aws",
+        "runtime": "provided.al2",
+        "region": "us-east-1",
+        "environment": {
+          "APP_ENV": "production",
+          "APP_DEBUG": "false",
+          "APP_KEY": "base64:msKg0KC5p6bJpPGoUqZ9n62hFjyrLaqtoHmn693XT1A=",
+          "DB_CONNECTION": "mysql",
+          "DB_HOST": "your-rds-endpoint.amazonaws.com",
+          "DB_PORT": "3306",
+          "DB_DATABASE": "weather_app",
+          "DB_USERNAME": "user",
+          "DB_PASSWORD": "<REDACTED>"
+        },
+        "stage": "dev",
+        "versionFunctions": true,
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "WebLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/laravel-backend-dev-web"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "laravel-backend",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/laravel-backend-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/laravel-backend-dev*:*:*"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "laravel-backend",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            },
+            "WebLambdaFunction": {
+              "Type": "AWS::Lambda::Function",
+              "Properties": {
+                "Code": {
+                  "S3Bucket": "serverless-framework-deployments-us-east-1-1f9f9034-f31d",
+                  "S3Key": "serverless/laravel-backend/dev/1733357974073-2024-12-05T00:19:34.073Z/laravel-backend.zip"
+                },
+                "Handler": "public/index.php",
+                "Runtime": "provided.al2",
+                "FunctionName": "laravel-backend-dev-web",
+                "MemorySize": 1024,
+                "Timeout": 28,
+                "Environment": {
+                  "Variables": {
+                    "APP_ENV": "production",
+                    "APP_DEBUG": "false",
+                    "APP_KEY": "base64:msKg0KC5p6bJpPGoUqZ9n62hFjyrLaqtoHmn693XT1A=",
+                    "DB_CONNECTION": "mysql",
+                    "DB_HOST": "your-rds-endpoint.amazonaws.com",
+                    "DB_PORT": "3306",
+                    "DB_DATABASE": "weather_app",
+                    "DB_USERNAME": "user",
+                    "DB_PASSWORD": "<REDACTED>"
+                  }
+                },
+                "Role": {
+                  "Fn::GetAtt": [
+                    "IamRoleLambdaExecution",
+                    "Arn"
+                  ]
+                },
+                "Layers": [
+                  "arn:aws:lambda:us-east-1:209497400698:layer:php-81-fpm:27"
+                ]
+              },
+              "DependsOn": [
+                "WebLogGroup"
+              ]
+            },
+            "WebLambdaVersionVeiit2Vx52VoxXaPNT6xtT2VpCgJQoxdvbw1oiWX444": {
+              "Type": "AWS::Lambda::Version",
+              "DeletionPolicy": "Retain",
+              "Properties": {
+                "FunctionName": {
+                  "Ref": "WebLambdaFunction"
+                },
+                "CodeSha256": "cXdkXoGJl4Qia/HtGKv8KAZG4K/ROKWN86kKLdcDewk="
+              }
+            },
+            "ApiGatewayRestApi": {
+              "Type": "AWS::ApiGateway::RestApi",
+              "Properties": {
+                "Name": "dev-laravel-backend",
+                "EndpointConfiguration": {
+                  "Types": [
+                    "EDGE"
+                  ]
+                },
+                "Policy": ""
+              }
+            },
+            "ApiGatewayResourceProxyVar": {
+              "Type": "AWS::ApiGateway::Resource",
+              "Properties": {
+                "ParentId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "PathPart": "{proxy+}",
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                }
+              }
+            },
+            "ApiGatewayMethodAny": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "ANY",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Fn::GetAtt": [
+                    "ApiGatewayRestApi",
+                    "RootResourceId"
+                  ]
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "WebLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "WebLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayMethodProxyVarAny": {
+              "Type": "AWS::ApiGateway::Method",
+              "Properties": {
+                "HttpMethod": "ANY",
+                "RequestParameters": {},
+                "ResourceId": {
+                  "Ref": "ApiGatewayResourceProxyVar"
+                },
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "ApiKeyRequired": "<REDACTED>",
+                "AuthorizationType": "NONE",
+                "Integration": {
+                  "IntegrationHttpMethod": "POST",
+                  "Type": "AWS_PROXY",
+                  "Uri": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":apigateway:",
+                        {
+                          "Ref": "AWS::Region"
+                        },
+                        ":lambda:path/2015-03-31/functions/",
+                        {
+                          "Fn::GetAtt": [
+                            "WebLambdaFunction",
+                            "Arn"
+                          ]
+                        },
+                        "/invocations"
+                      ]
+                    ]
+                  }
+                },
+                "MethodResponses": []
+              },
+              "DependsOn": [
+                "WebLambdaPermissionApiGateway"
+              ]
+            },
+            "ApiGatewayDeployment1733357963797": {
+              "Type": "AWS::ApiGateway::Deployment",
+              "Properties": {
+                "RestApiId": {
+                  "Ref": "ApiGatewayRestApi"
+                },
+                "StageName": "dev"
+              },
+              "DependsOn": [
+                "ApiGatewayMethodAny",
+                "ApiGatewayMethodProxyVarAny"
+              ]
+            },
+            "WebLambdaPermissionApiGateway": {
+              "Type": "AWS::Lambda::Permission",
+              "Properties": {
+                "FunctionName": {
+                  "Fn::GetAtt": [
+                    "WebLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "apigateway.amazonaws.com",
+                "SourceArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "ApiGatewayRestApi"
+                      },
+                      "/*/*"
+                    ]
+                  ]
+                }
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": "serverless-framework-deployments-us-east-1-1f9f9034-f31d",
+              "Export": {
+                "Name": "sls-laravel-backend-dev-ServerlessDeploymentBucketName"
+              }
+            },
+            "WebLambdaFunctionQualifiedArn": {
+              "Description": "Current Lambda function version",
+              "Value": {
+                "Ref": "WebLambdaVersionVeiit2Vx52VoxXaPNT6xtT2VpCgJQoxdvbw1oiWX444"
+              },
+              "Export": {
+                "Name": "sls-laravel-backend-dev-WebLambdaFunctionQualifiedArn"
+              }
+            },
+            "ServiceEndpoint": {
+              "Description": "URL of the service endpoint",
+              "Value": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "https://",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    ".execute-api.",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ".",
+                    {
+                      "Ref": "AWS::URLSuffix"
+                    },
+                    "/dev"
+                  ]
+                ]
+              },
+              "Export": {
+                "Name": "sls-laravel-backend-dev-ServiceEndpoint"
+              }
+            }
+          }
+        },
+        "vpc": {}
+      },
+      "functions": {
+        "web": {
+          "handler": "public/index.php",
+          "timeout": 28,
+          "layers": [
+            "arn:aws:lambda:us-east-1:209497400698:layer:php-81-fpm:27"
+          ],
+          "events": [
+            {
+              "http": "ANY /"
+            },
+            {
+              "http": "ANY /{proxy+}"
+            }
+          ],
+          "name": "laravel-backend-dev-web",
+          "package": {},
+          "memory": 1024,
+          "runtime": "provided.al2",
+          "vpc": {},
+          "versionLogicalId": "WebLambdaVersionVeiit2Vx52VoxXaPNT6xtT2VpCgJQoxdvbw1oiWX444"
+        }
+      }
+    },
+    "serviceRawFile": "service: laravel-backend\n\nprovider:\n  name: aws\n  runtime: provided.al2\n  region: us-east-1\n  environment:\n    APP_ENV: production\n    APP_DEBUG: false\n    APP_KEY: base64:msKg0KC5p6bJpPGoUqZ9n62hFjyrLaqtoHmn693XT1A=\n    DB_CONNECTION: mysql\n    DB_HOST: your-rds-endpoint.amazonaws.com\n    DB_PORT: 3306\n    DB_DATABASE: weather_app\n    DB_USERNAME: user\n    DB_PASSWORD: userpassword\n\nfunctions:\n  web:\n    handler: public/index.php\n    timeout: 28\n    layers:\n      - arn:aws:lambda:us-east-1:209497400698:layer:php-81-fpm:27\n\n    events:\n      - http: 'ANY /'\n      - http: 'ANY /{proxy+}'\n\n",
+    "command": [
+      "deploy"
+    ],
+    "options": {},
+    "error": null,
+    "params": {},
+    "machineId": "f9d3dd2ec90238cfa47f83d10af3f37a",
+    "stage": "dev",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "a56b7af5-ea1d-40c3-88bd-0525d7b80945",
+    "orgName": "izaac",
+    "userId": "k39dNvNZDsv0LJgtvV",
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "userName": "izaac",
+    "subscription": null,
+    "userEmail": "izaacbaptista@gmail.com",
+    "serviceProviderAwsRegion": "us-east-1",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "030144611494",
+    "projectType": "traditional",
+    "versionSf": "4.4.14",
+    "serviceProviderAwsCfStackName": "laravel-backend-dev",
+    "integrations": {},
+    "serviceUniqueId": "arn:aws:cloudformation:us-east-1:030144611494:stack/laravel-backend-dev/a4725d30-b29e-11ef-a9d7-0affee4a64e1",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:030144611494:stack/laravel-backend-dev/a4725d30-b29e-11ef-a9d7-0affee4a64e1",
+    "serviceProviderAwsCfStackCreated": "2024-12-05T00:19:50.651Z",
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": "CREATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "WebLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:030144611494:function:laravel-backend-dev-web:1",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-laravel-backend-dev-WebLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "ServiceEndpoint",
+        "OutputValue": "https://on5taoyhke.execute-api.us-east-1.amazonaws.com/dev",
+        "Description": "URL of the service endpoint",
+        "ExportName": "sls-laravel-backend-dev-ServiceEndpoint"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "serverless-framework-deployments-us-east-1-1f9f9034-f31d",
+        "ExportName": "sls-laravel-backend-dev-ServerlessDeploymentBucketName"
+      }
+    ]
+  }
+}

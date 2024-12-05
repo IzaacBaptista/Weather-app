@@ -1,0 +1,28 @@
+service: laravel-backend
+
+provider:
+  name: aws
+  runtime: provided.al2
+  region: us-east-1
+  environment:
+    APP_ENV: production
+    APP_DEBUG: false
+    APP_KEY: base64:msKg0KC5p6bJpPGoUqZ9n62hFjyrLaqtoHmn693XT1A=
+    DB_CONNECTION: mysql
+    DB_HOST: your-rds-endpoint.amazonaws.com
+    DB_PORT: 3306
+    DB_DATABASE: weather_app
+    DB_USERNAME: user
+    DB_PASSWORD: userpassword
+
+functions:
+  web:
+    handler: public/index.php
+    timeout: 28
+    layers:
+      - arn:aws:lambda:us-east-1:209497400698:layer:php-81-fpm:27
+
+    events:
+      - http: 'ANY /'
+      - http: 'ANY /{proxy+}'
+
